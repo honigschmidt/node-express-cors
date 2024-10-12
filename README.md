@@ -1,0 +1,1 @@
+Example of using CORS with Node Express. Client in JS included. Check screenshot for details.

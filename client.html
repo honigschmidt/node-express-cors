@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<head>
+    <title>Node Express CORS</title>
+    <style>
+        * {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #container_main {
+            display: flex;
+            flex-direction: column;
+            width: 500px;
+            align-items: center;
+        }
+        #container_input {
+            display: flex;
+            flex-direction: row;
+            width: 495px;
+            justify-content: space-between;
+        }
+        #messagebox {
+            border: 1px solid gray;
+            width: 495px;
+            height: 200px;
+            margin-bottom: 10px;
+            font-size: 0.8em;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Node Express CORS</h1>
+    <div id="container_main">
+        <div id="messagebox"></div>
+        <div id="container_input">
+            <select id="input_http_method">
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
+            </select>
+            <span>http://</span>
+            <input type="text" id="input_host" size="10">
+            <span>:</span>
+            <input type="text" id="input_port" size="10">
+            <input type="text" id="input_route" size="10">
+            <button id="button_send">SEND</button>
+        </div>
+    </div>
+
+    <script>
+        const messagebox = document.querySelector("#messagebox");
+        const defaultHost = "127.0.0.1";
+        const defaultPort = 8080;
+        const defaultRoute = "/";
+        const inputHTTPMethod = document.querySelector("#input_http_method");
+        const inputHost = document.querySelector("#input_host");
+        const inputPort = document.querySelector("#input_port");
+        const inputRoute = document.querySelector("#input_route");
+
+        document.querySelector("#button_send").addEventListener("click", () => {
+            let method = inputHTTPMethod.value;
+            let host = inputHost.value;
+            let port = inputPort.value;
+            let route = inputRoute.value;
+            sendHTTPRequest(host, port, route, method);
+        })
+        
+        setDefaults();
+
+        function sendHTTPRequest(host, port, route, method) {
+            let url = "http://" + host + ":" + port + route;
+            sendToMessagebox(`[CLIENT] ${method} ${url}`);
+            fetch(url, {method: method})
+            .then((response) => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error();
+                }
+            })
+            .then((textResponse) => {
+                sendToMessagebox(`[SERVER] ${textResponse}`);
+            })
+            .catch((error) => {
+                sendToMessagebox(`[ERROR] ${error}`)
+            });
+        }
+
+        function sendToMessagebox(text) {
+            messagebox.innerHTML += text + "</br>";
+            messagebox.scrollTop = messagebox.scrollHeight;
+        }
+
+        function setDefaults() {
+            inputHost.value = defaultHost;
+            inputPort.value = defaultPort;
+            inputRoute.value = defaultRoute;
+        }
+    </script>
+    
+</body>
+</html>
