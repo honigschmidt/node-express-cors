@@ -5,8 +5,8 @@ const app = express();
 const port = 8080;
 const headers = {
     "Access-Control-Allow-Origin": "*",
-	"Access-Control-Allow-Methods": "PUT, POST, GET, DELETE, OPTIONS",
-	"Access-Control-Allow-Headers": "Content-Type, Authorization, Content-Length, X-Requested-With",
+    "Access-Control-Allow-Methods": "PUT, POST, GET, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization, Content-Length, X-Requested-With",
     "Access-Control-Expose-Headers": "*"
 }
 
